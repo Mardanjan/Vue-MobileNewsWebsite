@@ -15,6 +15,7 @@
     "mint-ui": "^2.2.13",
     "scss-loader": "0.0.1",
     "vue": "^2.6.10",
+    "vue-resource": "^1.5.1",
     "vue-router": "^3.1.2",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7"

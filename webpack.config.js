@@ -26,7 +26,7 @@ module.exports = {
       filename : 'bundle.js' 
   },
   devServer:{  //配置dev-server的第二种方式，比较麻烦
-    open:true, //打开浏览器
+  //  open:true, //打开浏览器
     port : 80, //端口
    // contentBase : '', // 托管的根目录
     hot: true,  //热更新第一步
@@ -43,6 +43,7 @@ module.exports = {
   module:{  //这个节点用来配置所有的第三方模块加载器
     rules:[
         {test:/\.css$/ , use :['style-loader' , 'css-loader']} ,//配置处理。css文件的第三方loader模块
+      
         {test:/\.(jpg|png|gif|bmp|jpeg)$/ , use :'url-loader'} ,//配置处理。.jpg jf png  处理图片路径的
         {test:/\.(ttf|eot|svg|woff|woff2)$/ , use :'url-loader'} ,//配置处理。.处理字体文件
         { test: /\.vue$/, use: 'vue-loader' },
