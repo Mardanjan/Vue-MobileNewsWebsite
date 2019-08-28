@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server   --port 80 --contentBase src  "
+    "dev": "webpack-dev-server   --port 3000 --contentBase src  "
   },
   "author": "",
   "license": "ISC",
