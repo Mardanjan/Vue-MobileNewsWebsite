@@ -27,7 +27,7 @@ module.exports = {
   },
   devServer:{  //配置dev-server的第二种方式，比较麻烦
   //  open:true, //打开浏览器
-    port : 80, //端口
+    port : 81, //端口
    // contentBase : '', // 托管的根目录
     hot: true,  //热更新第一步
 },
