@@ -17,6 +17,7 @@
 				<span class="mui-icon mui-icon-home"></span>
 				<span class="mui-tab-label">首页</span>
 			</router-link>
+            
 			<router-link class="mui-tab-item" to="/blog">
 				<span class="mui-icon mui-icon-email"><span class="mui-badge"></span></span>
 				<span class="mui-tab-label">博客</span>
@@ -58,5 +59,11 @@ export default {
 .v-enter-active,
 .v-leave-active{
     transition: all 0.5s ease;
+}
+mt-header{
+    position: absolute;
+}
+mui-bar mui-bar-tab{
+    position: absolute;
 }
 </style>

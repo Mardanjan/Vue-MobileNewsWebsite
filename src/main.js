@@ -19,7 +19,7 @@ Vue.use(VueRouter)
 Vue.use(VueResource)
 
 //设置请求的根路径
-Vue.http.options.root = 'http://www.liulongbin.top:3005';
+Vue.http.options.root = 'http://localhost:80';
 
 //定义全局的过滤器
 import moment from 'moment'
