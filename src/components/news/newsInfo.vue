@@ -1,23 +1,28 @@
 <template>
-    <div class="newsinfo-container">
+    <div >
+        <header class="mui-bar mui-bar-nav">
+			<router-link class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" to="/home/newsList"></router-link>
+			<h1 class="mui-title">{{title}}</h1>
+	    </header>
         <!-- 标题区 -->
-        <h3 class="title">新闻标题</h3>
-        <p class="subtitle">
-            <span>发表时间：</span>
-            <span>点击次数：</span>
-        </p>
-
-        <hr>
-
-        <!-- 内容区 -->
         <div class="content">
-            <h2>{{id}} 这是内容去</h2>
+        <div class="title">
+            <h1 >{{title}}</h1>
+            <p >
+                <span class="time">发表时间：{{ctime}}</span>
+                <span class="author">来源：{{author}}</span>
+            </p>
+            <hr>
+        </div>
+        <div v-html="content">
+            <!-- <h1> 这是内容区</h1> -->
         </div>
 
         <!-- 评论区 -->
         <comment-box></comment-box>
         
-
+        </div>
+       
     </div>
 </template>
 
@@ -28,10 +33,30 @@ export default {
     data(){
         return{
             id:this.$route.params.id  , //将url地址中传递过来的ID值挂载到data上，方便以后管理
+            content:'',
+            ctime:'',
+            author:'',
+            title:'',
         }
     },
+    created(){
+       this.getNewsInfo();
+    },
     methods:{
-        getNewsInfo(){}
+        getNewsInfo(){
+            //console.log(this.id)
+            this.$http.get("api/news/getNewById?id="+this.id).then(result =>{
+             if(result.body.code === 200){
+                this.content = result.body.data.content
+                this.ctime = result.body.data.ctime
+                this.author = result.body.data.author
+                this.title = result.body.data.title
+             }else{
+              
+             }
+         })
+
+        }
     },
     components:{ //用来注册子组件
         "comment-box" : comment,
@@ -41,20 +66,34 @@ export default {
 </script>
 
 <style lang="css" scope>
-.newsinfo-container{
-    padding: 4px;
+img{
+    border: none;
+    margin: none;
+    padding: none;
+    width: 100%;
 }
-.title{
-    font-size: 16px;
-    text-align: center;
-    margin: 15px 0;
-    color: red;
+p{
+    padding-left: 5px;
+    padding-right: 5px;
+
 }
-.subtitle{
-    font-size: 12px;
-    color: black;
-    display: flex;
-    justify-content: space-between;
+h1{
+     text-align: center;
+     font-size: 16px;
+     color: red;
 }
+.time{
+    float: left;
+     padding: 2px;
+}
+.click{
+    float: right;
+     padding: 2px;
+}
+.content{
+    padding-top: 10px;
+}
+
+
     
 </style>

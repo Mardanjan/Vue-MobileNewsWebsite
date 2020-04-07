@@ -1,93 +1,114 @@
 <template>
-    <div class="cmt-container">
-        <h3>评论组件</h3>
-
-        <textarea name="" id="" cols="30" rows="10" placeholder="请输入评论" maxlength="120"></textarea>
+    <div >
+        <hr>
+        <div class="header">
+        <h3>发表评论</h3>
+        <textarea  cols="30" rows="5" v-model="commentText"></textarea>
         
-        <mt-button type="primary" size="large">发表评论</mt-button>
-
-        <div class="cmt-list">
-            <div class="cmt-item">
-                <div class="cmt-title">
-                    第一楼 用户 匿名用户 发表时间20000
-                    <div class="cmt-body">
-                         评论都是在代码里写死的，因为教程里的接口失效了，没有办法获取评论
-                    </div>
-                </div>
-            </div>
-
-             <div class="cmt-item">
-                <div class="cmt-title">
-                    第二楼 用户 匿名用户 发表时间20000
-                    <div class="cmt-body">
-                           评论都是在代码里写死的，因为教程里的接口失效了，没有办法获取评论
-                    </div>
-                </div>
-            </div>
-
-             <div class="cmt-item">
-                <div class="cmt-title">
-                    第三楼 用户 匿名用户 发表时间20000
-                    <div class="cmt-body">
-                           评论都是在代码里写死的，因为教程里的接口失效了，没有办法获取评论
-                    </div>
-                </div>
-            </div>
-
-             <div class="cmt-item">
-                <div class="cmt-title">
-                    第四楼 用户 匿名用户 发表时间20000
-                    <div class="cmt-body">
-                          评论都是在代码里写死的，因为教程里的接口失效了，没有办法获取评论
-                    </div>
-                </div>
-            </div>
-
-             <div class="cmt-item">
-                <div class="cmt-title">
-                    第五楼 用户 匿名用户 发表时间20000
-                    <div class="cmt-body">
-                            评论都是在代码里写死的，因为教程里的接口失效了，没有办法获取评论
-                    </div>
-                </div>
-            </div>
+        <div class="submitComment">
+            <button  @click="addComment()" >发表</button>
         </div>
+        
+        </div>
+       
 
-        <mt-button type="danger" size="large">加载更多</mt-button>
-
+        <div v-for="item in comments" :key="item.to"> 
+             <hr>
+            <div class="userInfo">
+                <div class="userinfo-name">
+                    <span >{{item.from}}</span>
+                </div>
+                <div class="userinfo-ctime">
+                    <span >{{item.ctime}}</span>
+                </div>
+                
+            </div>
+            <div class="userComment">
+                <span>{{item.commentText}}</span>
+            </div>
+           
+        </div>
+<!-- 
+        <div class="moreComment">
+            <button @click="getComment()">加载更多</button>
+        </div> -->
+    
     </div>
+
 </template>
 
 <script>
+import {Toast} from 'mint-ui'  
 export default {
     data(){
         return{
-            pageIndex: 1, //默认显示第一页的数据
+            comments:[],
+            id:this.$route.params.id,
+            commentText:'',
         }
+    },
+    created(){
+       this.getComment()
+    },
+    methods:{   
+        getComment(){
+         //   console.log(this.id)
+            this.$http.get("api/newsComment/getCommentsById?id="+this.id).then(result =>{
+             if(result.body.code === 200){
+                //console.log(result.body)     
+                this.comments = result.body.data   
+             }else{
+                 console.log("error")        
+             }
+         })
+        },
+        addComment(){
+        //    console.log(this.id)
+         //   console.log(this.commentText)
+            this.$http.get("api/newsComment/addNewsCommentById?id="+this.id+"&commentText="+this.commentText).then(result =>{
+             if(result.body.code === 200){        
+                 Toast("评论成功！")
+                 this.getComment()
+                 this.commentText=''
+             }else{
+                 Toast("评论失败！")
+             }
+         })
+        },
     }
 }
 </script>
 
 <style lang="css">
-    h3{
-        font-size: 18px;
-    }
-    textarea{
-        font-size: 14px;
-        height: 85px;
-        margin: none;
-    }
-    .cmt-list{
 
-    }
-    .cmt-title{
-        background-color: #ccc;
-        font-size: 13px;
-        line-height: 30px;
-    }
-    .cmt-body{
-        line-height: 35px;
-        text-indent: 2em;
-        background-color:white;
-    }
+.userInfo{
+    display: flex;
+    background-color:antiquewhite;
+    padding: 1px;
+}
+.userinfo-name{
+    width: 50%;
+}
+.userinfo-ctime{
+    width: 50%;
+}
+.userComment{
+    
+    background-color: beige;
+}
+.submitComment{
+    text-align: center;
+  
+}
+textarea{
+    margin-bottom: 5px;
+    padding:0px;
+}
+.moreComment{
+    text-align: center;
+}
+h3{
+    text-align: center;
+}
+
 </style>

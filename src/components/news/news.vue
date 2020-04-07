@@ -1,41 +1,33 @@
 <template>
-  <div >
-       <!-- <header>
-           <button>lala</button>
-       </header> -->
-      
+  <div class="app-container">
+       
+     
+
        <ul class="mui-table-view">
 				<li class="mui-table-view-cell mui-media" v-for="item in newsList" :key="item.id">
 					<a :href="item.url">
-						<img class="mui-media-object mui-pull-left"  :src="item.picUrl">
+						<img class="mui-media-object mui-pull-left"  :src="item.thumbnail_pic_s">
 						<div class="mui-media-body">
 							<h1>{{item.title}}</h1>
 							<p class='mui-ellipsis'>
-                                <span>发表时间:{{item.ctime | dateFormat}}</span>
+                                <span>发表时间:{{item.date | dateFormat}}</span>
                             </p>
 						</div>
 					</a>
 				</li>
-               
-		</ul>
-          
-       
 
-   
+		</ul>
+
        
     </div>
 </template>
 
 <script>
  import {Toast} from 'mint-ui'
- import comment from '../subcomponents/comment.vue'
- import more from '../subcomponents/more.vue'
- 
 export default {
     data(){
         return{
-            newsList:[],
-            type:'social',
+            newsList:[]
         }
     },
     created(){
@@ -44,21 +36,20 @@ export default {
     methods:{
         getNewsList(){
          //   var url = "/api/getnewslist";
-         this.$http.get('api/news/getNewsListByType?type='+this.type).then(result =>{
+         this.$http.get("api/news/getNewsListByCategory?category=shishang").then(result =>{
              if(result.body.code === 200){
-                 Toast('成功获取'+result.body.num+"条数据!")
-                this.newsList = result.body.data
-               console.log(result.body)
+                 Toast('获取数据成功')
+             //    console.log(result.body.message)
+                //   this.newsList = result.body
+               // console.log(result.body.message)
+                console.log(result.body.message.result.data[0])
+                this.newsList = result.body.message.result.data
              }else{
                  Toast('获取数据失败')
              }
          })
 
         }
-    },
-     components:{ //用来注册子组件
-       "comment-box" : comment,
-        "more-button" : more,
     }
 }
 </script>
@@ -71,5 +62,9 @@ h1{
 p{
     display: flex;
     justify-content: space-between;
+}
+.app-container{
+    
+  
 }
 </style>

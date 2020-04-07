@@ -10,6 +10,7 @@ const path = require('path');
 
 //启用热更新的第二部
 const webpack = require('webpack')
+const jquery = require('jquery')
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 module.exports = {
@@ -27,7 +28,7 @@ module.exports = {
   },
   devServer:{  //配置dev-server的第二种方式，比较麻烦
   //  open:true, //打开浏览器
-    port : 3000, //端口
+    port : 8080, //端口
    // contentBase : '', // 托管的根目录
     hot: true,  //热更新第一步
 },
@@ -38,7 +39,13 @@ module.exports = {
             template:path.join(__dirname,'./src/index.html'),
             filename:'index.html', //指定生成页面的名称               
         }),
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new webpack.ProvidePlugin({
+            "$": "jquery",
+            "jQuery": "jquery",
+            "window.jQuery": "jquery",
+            "Popper": ['popper.js', 'default'],
+        })
     ],
   module:{  //这个节点用来配置所有的第三方模块加载器
     rules:[
@@ -51,4 +58,5 @@ module.exports = {
       
         ]
     },
+ 
 }
